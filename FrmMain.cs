@@ -42,7 +42,6 @@ namespace Localiza
             if (cbxSearchWholeWord.Checked)
                 txtTermo.Text = Search.RemoveRegExSpecialChars(txtTermo.Text);
 
-
             string path = txtDir.Text;
             File.WriteAllText("Localiza.cfg", txtDir.Text);
             dg.RowCount = 1;
@@ -64,11 +63,13 @@ namespace Localiza
                 dg[3, y].Value = Fcn.Extension(s.ResultLst[y].Filename);
                 dg[4, y].Value = File.GetLastWriteTime(s.ResultLst[y].Filename);
                 dg[5, y].Value = f.Length.ToString();
+                if(s.ResultLst[y] != null)
+                    dg[6, y].Value = s.ResultLst[y].Encoding.EncodingName;
                 dg.RowCount++;
             }
             dg.RowCount--;
             Cursor = Cursors.Default;
-            statusStrip.Items[0].Text = "Padrão presente em " + s.ResultLst.Count + " arquivo(s), tempo decorrido ";
+            statusStrip.Items[0].Text = "Padrão presente em " + s.ResultLst.Count + " arquivo(s), de um total de " + s.FileLst.Count + " arquivos. Tempo decorrido ";
             if (s.ElapsedSpan.Seconds < 1)
                 statusStrip.Items[0].Text += s.ElapsedSpan.Milliseconds + " milissegundos.";
             else

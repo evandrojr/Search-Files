@@ -177,10 +177,14 @@ namespace Localiza
         {
             int counter=0;
             string line=null;
+            Encoding enc;
 
             for (int i = 0; i < ResultLst.Count; ++i)
             {
-                using(StreamReader file = new StreamReader(ResultLst[i].Filename, ResultLst[i].Encoding)){
+                enc = ResultLst[i].Encoding;
+                if (enc == null)
+                    enc = Encoding.Default;
+                using (StreamReader file = new StreamReader(ResultLst[i].Filename, enc)) {
                     counter = 1;
                     while ((line = file.ReadLine()) != null)
                     {

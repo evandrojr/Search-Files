@@ -83,7 +83,12 @@ namespace ShowLib
         /// <returns>Nome do arquivo sem o caminho completo</returns>
         public static string Extension(string pathAndFileName)
         {
-            return pathAndFileName.Substring(pathAndFileName.LastIndexOf('.'));
+            //if(
+            int LastIndexOf = pathAndFileName.LastIndexOf('.');
+            if (LastIndexOf > -1)
+                return pathAndFileName.Substring(LastIndexOf);
+            else
+                return "";
         }
 
         /// <summary>

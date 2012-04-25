@@ -14,7 +14,11 @@ namespace Localiza
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMain());
+///            try {
+                Application.Run(new FrmMain());
+//            } catch (Exception ex) {
+//                MessageBox.Show(ex.Message, "Erro");
+//            }
         }
     }
 }
