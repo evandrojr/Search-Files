@@ -1,0 +1,30 @@
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\obj\x86\Debug\Localiza.FrmMain.resources
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\obj\x86\Debug\Localiza.Properties.Resources.resources
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\bin\Debug\Localiza.exe
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\bin\Debug\Localiza.pdb
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\obj\x86\Debug\Localiza.exe
+C:\Users\93274300500\AppData\Local\Temporary Projects\Localiza\obj\x86\Debug\Localiza.pdb
+C:\dev\Localiza\obj\x86\Debug\Localiza.exe
+C:\dev\Localiza\obj\x86\Debug\Localiza.pdb
+C:\dev\Localiza\bin\Debug\Localiza.exe
+C:\dev\Localiza\bin\Debug\Localiza.pdb
+C:\dev\Localiza\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\dev\Localiza\obj\x86\Debug\Localiza.FrmMain.resources
+C:\dev\Localiza\obj\x86\Debug\Localiza.Properties.Resources.resources
+C:\dev\Localiza\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\dev\Localiza\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\DEv_\Localiza\obj\x86\Debug\Localiza.exe
+C:\DEv_\Localiza\obj\x86\Debug\Localiza.pdb
+C:\DEv_\Localiza\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\DEv_\Localiza\obj\x86\Debug\Localiza.FrmMain.resources
+C:\DEv_\Localiza\obj\x86\Debug\Localiza.Properties.Resources.resources
+C:\DEv_\Localiza\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\DEv_\Localiza\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\DEv_\Localiza\bin\Debug\Localiza.exe
+C:\DEv_\Localiza\bin\Debug\Localiza.pdb
+C:\DEv_\Localiza\bin\Debug\Localiza.exe.config
+C:\DEv_\Localiza\obj\x86\Debug\GenerateResource-ResGen.read.1.tlog
+C:\DEv_\Localiza\obj\x86\Debug\GenerateResource-ResGen.write.1.tlog
