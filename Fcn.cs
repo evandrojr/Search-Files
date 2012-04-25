@@ -13,6 +13,9 @@ namespace ShowLib
 {
     public class Fcn
     {
+
+
+
         /// <summary>Gera uma lista lista dos arquivos contidos num determinado diretório</summary>
         /// <param name="b">Caminho do diretório desejado</param>
         /// <returns>Stringlist com os caminhos dos arquivos existentes no diretório</returns>
@@ -59,6 +62,10 @@ namespace ShowLib
             }
             return result;
         }
+
+
+
+
         /// <summary>
         /// Extrai o nome de um arquivo do caminho informado
         /// </summary>
@@ -159,7 +166,7 @@ namespace ShowLib
 
 
         /// <summary>
-        /// Detect if a file is text and detect the encoding.
+        /// Try to detect if a file is text and detect the encoding.
         /// </summary>
         /// <param name="encoding">
         /// The detected encoding.
@@ -187,24 +194,17 @@ namespace ShowLib
 
                 // Detect encoding correctly (from Rick Strahl's blog)
                 // http://www.west-wind.com/weblog/posts/2007/Nov/28/Detecting-Text-Encoding-for-StreamReader
-                if (rawData[0] == 0xef && rawData[1] == 0xbb && rawData[2] == 0xbf)
-                {
+                if (rawData[0] == 0xef && rawData[1] == 0xbb && rawData[2] == 0xbf){
                     encoding = Encoding.UTF8;
-                }
-                else if (rawData[0] == 0xfe && rawData[1] == 0xff)
-                {
-                    encoding = Encoding.Unicode;
-                }
-                else if (rawData[0] == 0 && rawData[1] == 0 && rawData[2] == 0xfe && rawData[3] == 0xff)
-                {
+                } else if (rawData[0] == 0xff && rawData[1] == 0xfe){
+                    encoding = Encoding.Unicode; // utf-16le
+                } else if (rawData[0] == 0xfe && rawData[1] == 0xff) {
+                    encoding = Encoding.BigEndianUnicode; // utf-16be
+                } else if (rawData[0] == 0 && rawData[1] == 0 && rawData[2] == 0xfe && rawData[3] == 0xff) {
                     encoding = Encoding.UTF32;
-                }
-                else if (rawData[0] == 0x2b && rawData[1] == 0x2f && rawData[2] == 0x76)
-                {
+                } else if (rawData[0] == 0x2b && rawData[1] == 0x2f && rawData[2] == 0x76) {
                     encoding = Encoding.UTF7;
-                }
-                else
-                {
+                } else {
                     encoding = Encoding.Default;
                 }
 
@@ -214,6 +214,7 @@ namespace ShowLib
                     streamReader.Read(text, 0, text.Length);
                 }
 
+                isText = true;
                 using (var memoryStream = new MemoryStream())
                 {
                     using (var streamWriter = new StreamWriter(memoryStream, encoding))
@@ -226,11 +227,41 @@ namespace ShowLib
                         var memoryBuffer = memoryStream.GetBuffer();
 
                         // Compare only bytes read
-                        for (var i = 0; i < rawLength && isText; i++)
+                        for (var i = 0; i < rawLength; i++)
                         {
-                            isText = rawData[i] == memoryBuffer[i];
+                            if (rawData[i] != memoryBuffer[i]) {
+                                isText = false;
+                                encoding = null;
+                                break;
+                            }
                         }
                     }
+                }
+
+                //Try again using UTF8 without BOM :)
+                if (!isText) {
+                    isText = true;
+                    using (var memoryStream = new MemoryStream()) {
+                        using (var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8)) {
+                            // Write the text to a buffer
+                            streamWriter.Write(text);
+                            streamWriter.Flush();
+
+                            // Get the buffer from the memory stream for comparision
+                            var memoryBuffer = memoryStream.GetBuffer();
+
+                            // Compare only bytes read
+                            for (var i = 0; i < rawLength; i++) {
+                                if (rawData[i] != memoryBuffer[i+3]) {
+                                    isText = false;
+                                    encoding = null;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (isText)
+                        encoding = Encoding.UTF8;
                 }
 
                 return isText;

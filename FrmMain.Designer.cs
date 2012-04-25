@@ -57,6 +57,7 @@
             this.Extensao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tamanho = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Codificacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip.SuspendLayout();
             this.grbArquivos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -68,9 +69,9 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblTime});
-            this.statusStrip.Location = new System.Drawing.Point(0, 378);
+            this.statusStrip.Location = new System.Drawing.Point(0, 521);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(916, 22);
+            this.statusStrip.Size = new System.Drawing.Size(988, 22);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip";
             // 
@@ -208,11 +209,12 @@
             this.Caminho,
             this.Extensao,
             this.DateModified,
-            this.Tamanho});
+            this.Tamanho,
+            this.Codificacao});
             this.dg.Location = new System.Drawing.Point(0, 200);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
-            this.dg.Size = new System.Drawing.Size(916, 175);
+            this.dg.Size = new System.Drawing.Size(988, 318);
             this.dg.TabIndex = 13;
             this.dg.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_CellMouseDoubleClick);
             // 
@@ -267,6 +269,8 @@
             // cbxAlsoSearchInFilenames
             // 
             this.cbxAlsoSearchInFilenames.AutoSize = true;
+            this.cbxAlsoSearchInFilenames.Checked = true;
+            this.cbxAlsoSearchInFilenames.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxAlsoSearchInFilenames.Location = new System.Drawing.Point(6, 19);
             this.cbxAlsoSearchInFilenames.Name = "cbxAlsoSearchInFilenames";
             this.cbxAlsoSearchInFilenames.Size = new System.Drawing.Size(142, 17);
@@ -342,12 +346,18 @@
             this.Tamanho.Name = "Tamanho";
             this.Tamanho.ReadOnly = true;
             // 
+            // Codificacao
+            // 
+            this.Codificacao.HeaderText = "Codificação";
+            this.Codificacao.Name = "Codificacao";
+            this.Codificacao.ReadOnly = true;
+            // 
             // FrmMain
             // 
             this.AcceptButton = this.BtnLocalizar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(916, 400);
+            this.ClientSize = new System.Drawing.Size(988, 543);
             this.Controls.Add(this.grbAlso);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.grbArquivos);
@@ -402,6 +412,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Extensao;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateModified;
         private System.Windows.Forms.DataGridViewTextBoxColumn Tamanho;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Codificacao;
     }
 }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
@@ -51,7 +50,7 @@ namespace Localiza
                 dg[i, 0].Value = "";
             Cursor = Cursors.WaitCursor;
             s = new Search(pattern, path, cbxCaseSensitive.Checked,cbxSearchBinaryFiles.Checked, cbxSearchWholeWord.Checked,
-                           cbxUseRegularExpressions.Checked, cbxAlsoSearchInFilenames.Checked, cbxOnlySearchInFileNames.Checked);
+                           cbxUseRegularExpressions.Checked, cbxAlsoSearchInFilenames.Checked, cbxOnlySearchInFileNames.Checked, cbxDecodeHtml.Checked);
             statusStrip.Items[0].Text = "Favor aguardar...";
             Application.DoEvents();
             s.StartSearch();
