@@ -1,0 +1,5 @@
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Library\bin\Debug\Ude.dll
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Library\bin\Debug\Ude.pdb
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Library\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Library\obj\Debug\Ude.dll
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Library\obj\Debug\Ude.pdb

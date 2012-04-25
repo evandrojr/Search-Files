@@ -1,0 +1,8 @@
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\bin\Debug\Ude.Tests.dll
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\bin\Debug\Ude.Tests.pdb
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\bin\Debug\nunit.framework.dll
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\bin\Debug\Ude.dll
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\bin\Debug\Ude.pdb
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\obj\Debug\Ude.Tests.dll
+C:\Users\93274300500\Downloads\ude-0.1.tar\ude-0.1\src\Tests\obj\Debug\Ude.Tests.pdb
