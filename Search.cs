@@ -34,6 +34,8 @@ namespace Localiza
         public static string RegExSpecialChars= @"^,?,*,+,\,.,-,|,(,),$,{,},[,],<,>,=,*";
 
 
+        public Search(){}
+
         public Search(string pattern, string dir, bool caseSensitive, bool searchBinaryFiles, bool serchWholeWord,
                                         bool regularExpression, bool searchInFileNames, bool searchOnlyInFilenames, bool decodeHml)
         {
@@ -162,7 +164,7 @@ namespace Localiza
             return j;
         }
 
-        private void PreProcess()
+        public void PreProcess()
         {
             fillBinaryExtensions();
             if (!CaseSensitive) {
@@ -170,9 +172,9 @@ namespace Localiza
                 PatternWithSpecialChars = PatternWithSpecialChars.ToLower();
             }
             if (SearchWholeWord)
-                Pattern = "\\b" + this.Pattern + "\\b";
+                Pattern = RemoveRegExSpecialChars(Pattern);
             if (SearchWholeWord)
-                Pattern=RemoveRegExSpecialChars(Pattern);
+                Pattern = "\\b" + this.Pattern + "\\b";
         }
 
         public void StartSearch(){
@@ -185,31 +187,31 @@ namespace Localiza
         }
 
 
-        public void LocateAllLines()
+        public Result LocateAllLines(string filename)
         {
             int counter=0;
             string line=null;
             Encoding enc;
 
-
-            for (int i = 0; i < ResultLst.Count; ++i)
-            {
-                enc = ResultLst[i].Encoding;
-                if (enc == null)
+            if(false==Fcn.TryToDetectEncoding(out enc, filename, 1000))
                     enc = Encoding.Default;
-                using (StreamReader file = new StreamReader(ResultLst[i].Filename, enc)) {
-                    counter = 1;
-                    while ((line = file.ReadLine()) != null)
-                    {
-                        if (MatchContent(line, ResultLst[i].Encoding)) {
-                            ResultLst[i].AddTextBlock(counter, line);
+            Result result = new Result(filename, enc);
 
-                        }
-                        counter++;
+            using (StreamReader file = new StreamReader(filename, enc)) {
+                counter = 1;
+                while ((line = file.ReadLine()) != null)
+                {
+                    if (MatchContent(line, enc)) {
+                        result.AddTextBlock(counter, line);
+
                     }
-                    file.Close();
+                    counter++;
                 }
+                file.Close();
             }
+
+            return result;
+            
         }
 
 
@@ -286,11 +288,6 @@ namespace Localiza
 
         private bool MatchContent(string content, Encoding enc) {
 
-                //Se não marcar case sensitive ou não marcar expressao regular ele entra
-                //Se marcar caseSensitive e nao marcar expressao regular F || V = V entra
-                //Só não entra se for CaseSensitive || ExpressaoRegular, expressão regular F || F
-                if (!CaseSensitive || !RegularExpression) 
-                    content = content.ToLower();
                 if (RegularExpression || SearchWholeWord)
                 {
                     if (CaseSensitive) {
@@ -311,6 +308,8 @@ namespace Localiza
                         }
                     }
                 }else{
+                        if(!CaseSensitive)
+                            content = content.ToLower();
                         //Precisa colocar isso, para permitir que seja pesquisado um padrão que tenha caracteres de uma expressão regular
                         if (content.Contains(Pattern))
                             return true;
@@ -333,7 +332,7 @@ namespace Localiza
                 get {
                     string ret="";
                     foreach (TextBlock tb in TextBlockLst) {
-                        ret += "Linha: " + tb.LineNumber + " " + tb.Text + Environment.NewLine;
+                        ret += "Linha " + tb.LineNumber.ToString().PadLeft(3,'0') + ":  " + tb.Text + Environment.NewLine;
                     }
                     return ret;
                 }

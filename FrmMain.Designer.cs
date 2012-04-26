@@ -58,20 +58,24 @@
             this.DateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tamanho = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Codificacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblIntrucao1 = new System.Windows.Forms.Label();
+            this.lblInstrucao2 = new System.Windows.Forms.Label();
+            this.groupBoxAjuda = new System.Windows.Forms.GroupBox();
             this.statusStrip.SuspendLayout();
             this.grbArquivos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.grbOpcoes.SuspendLayout();
             this.grbAlso.SuspendLayout();
+            this.groupBoxAjuda.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblTime});
-            this.statusStrip.Location = new System.Drawing.Point(0, 521);
+            this.statusStrip.Location = new System.Drawing.Point(0, 516);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(988, 22);
+            this.statusStrip.Size = new System.Drawing.Size(916, 22);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip";
             // 
@@ -133,7 +137,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 80);
+            this.label2.Location = new System.Drawing.Point(6, 84);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(95, 13);
             this.label2.TabIndex = 16;
@@ -141,16 +145,18 @@
             // 
             // txtTermo
             // 
+            this.txtTermo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTermo.Location = new System.Drawing.Point(103, 77);
             this.txtTermo.Name = "txtTermo";
-            this.txtTermo.Size = new System.Drawing.Size(786, 20);
+            this.txtTermo.Size = new System.Drawing.Size(786, 26);
             this.txtTermo.TabIndex = 0;
             // 
             // txtDir
             // 
-            this.txtDir.Location = new System.Drawing.Point(103, 22);
+            this.txtDir.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDir.Location = new System.Drawing.Point(103, 21);
             this.txtDir.Name = "txtDir";
-            this.txtDir.Size = new System.Drawing.Size(786, 20);
+            this.txtDir.Size = new System.Drawing.Size(786, 22);
             this.txtDir.TabIndex = 5;
             // 
             // cbxSearchWholeWord
@@ -167,7 +173,7 @@
             // cbxSearchBinaryFiles
             // 
             this.cbxSearchBinaryFiles.AutoSize = true;
-            this.cbxSearchBinaryFiles.Location = new System.Drawing.Point(191, 19);
+            this.cbxSearchBinaryFiles.Location = new System.Drawing.Point(259, 19);
             this.cbxSearchBinaryFiles.Name = "cbxSearchBinaryFiles";
             this.cbxSearchBinaryFiles.Size = new System.Drawing.Size(123, 17);
             this.cbxSearchBinaryFiles.TabIndex = 3;
@@ -186,10 +192,11 @@
             // 
             // BtnLocalizar
             // 
+            this.BtnLocalizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnLocalizar.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.BtnLocalizar.Location = new System.Drawing.Point(769, 133);
+            this.BtnLocalizar.Location = new System.Drawing.Point(769, 209);
             this.BtnLocalizar.Name = "BtnLocalizar";
-            this.BtnLocalizar.Size = new System.Drawing.Size(128, 23);
+            this.BtnLocalizar.Size = new System.Drawing.Size(128, 39);
             this.BtnLocalizar.TabIndex = 1;
             this.BtnLocalizar.Text = "Procurar";
             this.BtnLocalizar.UseVisualStyleBackColor = true;
@@ -211,12 +218,13 @@
             this.DateModified,
             this.Tamanho,
             this.Codificacao});
-            this.dg.Location = new System.Drawing.Point(0, 200);
+            this.dg.Location = new System.Drawing.Point(0, 265);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
-            this.dg.Size = new System.Drawing.Size(988, 318);
+            this.dg.Size = new System.Drawing.Size(916, 248);
             this.dg.TabIndex = 13;
-            this.dg.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_CellMouseDoubleClick);
+            this.dg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellDoubleClick);
+            this.dg.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellMouseEnter);
             // 
             // grbOpcoes
             // 
@@ -228,7 +236,7 @@
             this.grbOpcoes.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.grbOpcoes.Location = new System.Drawing.Point(8, 124);
             this.grbOpcoes.Name = "grbOpcoes";
-            this.grbOpcoes.Size = new System.Drawing.Size(413, 70);
+            this.grbOpcoes.Size = new System.Drawing.Size(484, 70);
             this.grbOpcoes.TabIndex = 14;
             this.grbOpcoes.TabStop = false;
             this.grbOpcoes.Text = "Opções de busca";
@@ -236,7 +244,7 @@
             // cbxOnlySearchInFileNames
             // 
             this.cbxOnlySearchInFileNames.AutoSize = true;
-            this.cbxOnlySearchInFileNames.Location = new System.Drawing.Point(241, 19);
+            this.cbxOnlySearchInFileNames.Location = new System.Drawing.Point(301, 19);
             this.cbxOnlySearchInFileNames.Name = "cbxOnlySearchInFileNames";
             this.cbxOnlySearchInFileNames.Size = new System.Drawing.Size(165, 17);
             this.cbxOnlySearchInFileNames.TabIndex = 8;
@@ -247,7 +255,7 @@
             // llManualExpressoesRegulares
             // 
             this.llManualExpressoesRegulares.AutoSize = true;
-            this.llManualExpressoesRegulares.Location = new System.Drawing.Point(381, 48);
+            this.llManualExpressoesRegulares.Location = new System.Drawing.Point(443, 48);
             this.llManualExpressoesRegulares.Name = "llManualExpressoesRegulares";
             this.llManualExpressoesRegulares.Size = new System.Drawing.Size(13, 13);
             this.llManualExpressoesRegulares.TabIndex = 6;
@@ -258,7 +266,7 @@
             // cbxUseRegularExpressions
             // 
             this.cbxUseRegularExpressions.AutoSize = true;
-            this.cbxUseRegularExpressions.Location = new System.Drawing.Point(241, 47);
+            this.cbxUseRegularExpressions.Location = new System.Drawing.Point(301, 47);
             this.cbxUseRegularExpressions.Name = "cbxUseRegularExpressions";
             this.cbxUseRegularExpressions.Size = new System.Drawing.Size(143, 17);
             this.cbxUseRegularExpressions.TabIndex = 5;
@@ -271,7 +279,7 @@
             this.cbxAlsoSearchInFilenames.AutoSize = true;
             this.cbxAlsoSearchInFilenames.Checked = true;
             this.cbxAlsoSearchInFilenames.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxAlsoSearchInFilenames.Location = new System.Drawing.Point(6, 19);
+            this.cbxAlsoSearchInFilenames.Location = new System.Drawing.Point(15, 19);
             this.cbxAlsoSearchInFilenames.Name = "cbxAlsoSearchInFilenames";
             this.cbxAlsoSearchInFilenames.Size = new System.Drawing.Size(142, 17);
             this.cbxAlsoSearchInFilenames.TabIndex = 7;
@@ -285,9 +293,9 @@
             this.grbAlso.Controls.Add(this.cbxAlsoSearchInFilenames);
             this.grbAlso.Controls.Add(this.cbxSearchBinaryFiles);
             this.grbAlso.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.grbAlso.Location = new System.Drawing.Point(437, 124);
+            this.grbAlso.Location = new System.Drawing.Point(498, 124);
             this.grbAlso.Name = "grbAlso";
-            this.grbAlso.Size = new System.Drawing.Size(320, 70);
+            this.grbAlso.Size = new System.Drawing.Size(408, 70);
             this.grbAlso.TabIndex = 15;
             this.grbAlso.TabStop = false;
             this.grbAlso.Text = "Também procurar";
@@ -297,11 +305,11 @@
             this.cbxDecodeHtml.AutoSize = true;
             this.cbxDecodeHtml.Checked = true;
             this.cbxDecodeHtml.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxDecodeHtml.Location = new System.Drawing.Point(6, 46);
+            this.cbxDecodeHtml.Location = new System.Drawing.Point(15, 46);
             this.cbxDecodeHtml.Name = "cbxDecodeHtml";
-            this.cbxDecodeHtml.Size = new System.Drawing.Size(286, 17);
+            this.cbxDecodeHtml.Size = new System.Drawing.Size(177, 17);
             this.cbxDecodeHtml.TabIndex = 8;
-            this.cbxDecodeHtml.Text = "Decodificando os código HTML (útil para páginas web)";
+            this.cbxDecodeHtml.Text = "Decodificando os código HTML";
             this.cbxDecodeHtml.UseVisualStyleBackColor = true;
             // 
             // Arquivo
@@ -315,7 +323,7 @@
             // Linha
             // 
             this.Linha.FillWeight = 500F;
-            this.Linha.HeaderText = "Linha";
+            this.Linha.HeaderText = "Linha(s)";
             this.Linha.Name = "Linha";
             this.Linha.ReadOnly = true;
             this.Linha.Width = 500;
@@ -352,12 +360,48 @@
             this.Codificacao.Name = "Codificacao";
             this.Codificacao.ReadOnly = true;
             // 
+            // lblIntrucao1
+            // 
+            this.lblIntrucao1.AutoSize = true;
+            this.lblIntrucao1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIntrucao1.ForeColor = System.Drawing.Color.Black;
+            this.lblIntrucao1.Location = new System.Drawing.Point(6, 19);
+            this.lblIntrucao1.Name = "lblIntrucao1";
+            this.lblIntrucao1.Size = new System.Drawing.Size(346, 16);
+            this.lblIntrucao1.TabIndex = 16;
+            this.lblIntrucao1.Text = "1 - Clique duplo sobre o nome do arquivo abre o arquivo.";
+            // 
+            // lblInstrucao2
+            // 
+            this.lblInstrucao2.AutoSize = true;
+            this.lblInstrucao2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstrucao2.ForeColor = System.Drawing.Color.Black;
+            this.lblInstrucao2.Location = new System.Drawing.Point(6, 35);
+            this.lblInstrucao2.Name = "lblInstrucao2";
+            this.lblInstrucao2.Size = new System.Drawing.Size(465, 16);
+            this.lblInstrucao2.TabIndex = 17;
+            this.lblInstrucao2.Text = "2 - Clique duplo sobre conteúdo da linha mostra todas as linhas encontradas.";
+            // 
+            // groupBoxAjuda
+            // 
+            this.groupBoxAjuda.Controls.Add(this.lblInstrucao2);
+            this.groupBoxAjuda.Controls.Add(this.lblIntrucao1);
+            this.groupBoxAjuda.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxAjuda.ForeColor = System.Drawing.Color.Maroon;
+            this.groupBoxAjuda.Location = new System.Drawing.Point(8, 197);
+            this.groupBoxAjuda.Name = "groupBoxAjuda";
+            this.groupBoxAjuda.Size = new System.Drawing.Size(484, 59);
+            this.groupBoxAjuda.TabIndex = 18;
+            this.groupBoxAjuda.TabStop = false;
+            this.groupBoxAjuda.Text = "Ajuda";
+            // 
             // FrmMain
             // 
             this.AcceptButton = this.BtnLocalizar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(988, 543);
+            this.ClientSize = new System.Drawing.Size(916, 538);
+            this.Controls.Add(this.groupBoxAjuda);
             this.Controls.Add(this.grbAlso);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.grbArquivos);
@@ -377,6 +421,8 @@
             this.grbOpcoes.PerformLayout();
             this.grbAlso.ResumeLayout(false);
             this.grbAlso.PerformLayout();
+            this.groupBoxAjuda.ResumeLayout(false);
+            this.groupBoxAjuda.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -413,6 +459,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DateModified;
         private System.Windows.Forms.DataGridViewTextBoxColumn Tamanho;
         private System.Windows.Forms.DataGridViewTextBoxColumn Codificacao;
+        private System.Windows.Forms.Label lblIntrucao1;
+        private System.Windows.Forms.Label lblInstrucao2;
+        private System.Windows.Forms.GroupBox groupBoxAjuda;
     }
 }
 

@@ -175,18 +175,43 @@ namespace Localiza
                 cbxSearchWholeWord.Checked = false;
         }
 
-        private void dg_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
-         
-            string file= dg.CurrentRow.Cells[2].Value.ToString();
+
+        private void dg_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+
+            string file = dg.CurrentRow.Cells[2].Value.ToString();
+            string lineCell;
             string programfiles = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles);
             string notepadpp = programfiles + @"\Notepad++\notepad++.exe";
 
-            try {
-                Fcn.CommandLineExecuteInBackground(notepadpp, file, "");
-            } catch {
-                Fcn.CommandLineExecuteInBackground("Notepad.exe", file, "");
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+            if (e.ColumnIndex == 1) {
+                file = dg[2, e.RowIndex].Value.ToString();
+                lineCell = dg[1, e.RowIndex].Value.ToString();
+                if (file != "" && lineCell != "") {
+
+                    Search s = new Search(txtTermo.Text, txtDir.Text, cbxCaseSensitive.Checked, cbxSearchBinaryFiles.Checked, cbxSearchWholeWord.Checked, cbxUseRegularExpressions.Checked, cbxAlsoSearchInFilenames.Checked, cbxOnlySearchInFileNames.Checked, cbxDecodeHtml.Checked);
+                    s.PreProcess();
+                    Search.Result r = s.LocateAllLines(file);
+                    FrmViewText f = new FrmViewText();
+                    f.rtb.Text = r.Results;
+                    f.Show(this);
+                }
+            } else {
+                try {
+                    Fcn.CommandLineExecuteInBackground(notepadpp, file, "");
+                } catch {
+                    Fcn.CommandLineExecuteInBackground("Notepad.exe", file, "");
+                }
             }
         }
+
+        private void dg_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
+
+            
+        }
+
+
 
     }
 }

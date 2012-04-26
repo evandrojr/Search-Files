@@ -9,3 +9,4 @@ C:\Dev\Search-Files\bin\Debug\Localiza.exe
 C:\Dev\Search-Files\bin\Debug\Localiza.pdb
 C:\Dev\Search-Files\obj\x86\Debug\Localiza.exe
 C:\Dev\Search-Files\obj\x86\Debug\Localiza.pdb
+C:\Dev\Search-Files\obj\x86\Debug\Localiza.FrmViewText.resources
