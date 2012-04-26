@@ -1,2 +1,0 @@
-udetect.exe
-pause
