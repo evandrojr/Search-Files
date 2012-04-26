@@ -8,7 +8,6 @@ using System.Security;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.IO; 
-using Ude;
 
 namespace ShowLib
 {
@@ -276,38 +275,38 @@ namespace ShowLib
 
 
         //Very very slow! Better to not use it!
-        public static Encoding EncodingDetect(string file) {
+        //public static Encoding EncodingDetect(string file) {
 
-            using (FileStream fs = File.OpenRead(file)) {
-            ICharsetDetector cdet = new CharsetDetector();
-            cdet.Feed(fs);
-            cdet.DataEnd();
-                if (cdet.Charset != null)         {
-                    switch (cdet.Charset) {
-                        case "UTF-8":
-                            return Encoding.UTF8;
-                        case "ASCII":
-                            return Encoding.Default;
-                        case "UTF-16LE":
-                            return Encoding.Unicode;
-                        case "UTF-16BE":
-                            return Encoding.BigEndianUnicode;
-                        case "UTF-32BE:":
-                            return Encoding.UTF32;
-                        case "UTF-32LE:":
-                            return Encoding.UTF32;
-                        case "X-ISO-10646-UCS-4-3412":
-                            return Encoding.UTF32;
-                        case "X-ISO-10646-UCS-4-2413":
-                            return Encoding.UTF32;
-                        default:
-                            return Encoding.Default;
-                    }
-                } else {
-                    return null;
-                }
-            }
-        }
+        //    using (FileStream fs = File.OpenRead(file)) {
+        //    ICharsetDetector cdet = new CharsetDetector();
+        //    cdet.Feed(fs);
+        //    cdet.DataEnd();
+        //        if (cdet.Charset != null)         {
+        //            switch (cdet.Charset) {
+        //                case "UTF-8":
+        //                    return Encoding.UTF8;
+        //                case "ASCII":
+        //                    return Encoding.Default;
+        //                case "UTF-16LE":
+        //                    return Encoding.Unicode;
+        //                case "UTF-16BE":
+        //                    return Encoding.BigEndianUnicode;
+        //                case "UTF-32BE:":
+        //                    return Encoding.UTF32;
+        //                case "UTF-32LE:":
+        //                    return Encoding.UTF32;
+        //                case "X-ISO-10646-UCS-4-3412":
+        //                    return Encoding.UTF32;
+        //                case "X-ISO-10646-UCS-4-2413":
+        //                    return Encoding.UTF32;
+        //                default:
+        //                    return Encoding.Default;
+        //            }
+        //        } else {
+        //            return null;
+        //        }
+        //    }
+        //}
 
 
         /// <summary>
