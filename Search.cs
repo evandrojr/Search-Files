@@ -180,16 +180,17 @@ namespace Localiza
             PreProcess();
             FileLst = DirectoryGetFilesInfoRecusive(Dir);
             SearchForContentAndFilename();
-            LocateLines();
+            Locate1stLine();
             ElapsedSpan = new TimeSpan(DateTime.Now.Ticks - startTime);
         }
 
 
-        public void LocateLines()
+        public void LocateAllLines()
         {
             int counter=0;
             string line=null;
             Encoding enc;
+
 
             for (int i = 0; i < ResultLst.Count; ++i)
             {
@@ -200,8 +201,35 @@ namespace Localiza
                     counter = 1;
                     while ((line = file.ReadLine()) != null)
                     {
-                        if (MatchContent(line, ResultLst[i].Encoding))
+                        if (MatchContent(line, ResultLst[i].Encoding)) {
                             ResultLst[i].AddTextBlock(counter, line);
+
+                        }
+                        counter++;
+                    }
+                    file.Close();
+                }
+            }
+        }
+
+
+        public void Locate1stLine() {
+            int counter = 0;
+            string line = null;
+            Encoding enc;
+
+
+            for (int i = 0; i < ResultLst.Count; ++i) {
+                enc = ResultLst[i].Encoding;
+                if (enc == null)
+                    enc = Encoding.Default;
+                using (StreamReader file = new StreamReader(ResultLst[i].Filename, enc)) {
+                    counter = 1;
+                    while ((line = file.ReadLine()) != null) {
+                        if (MatchContent(line, ResultLst[i].Encoding)) {
+                            ResultLst[i].AddTextBlock(counter, line);
+                            break;
+                        }
                         counter++;
                     }
                     file.Close();
@@ -215,8 +243,6 @@ namespace Localiza
             string content="";
             int filesCount=1;
             Process proc; 
-            //Logger.Info(proc.PeakWorkingSet64 / 1024 + "kb");
-
             foreach (FileInformation fileInfo in FileLst)
             {
 
@@ -225,12 +251,7 @@ namespace Localiza
                     if (proc.PeakWorkingSet64 / 1024 > 50000)
                         GC.Collect();
                 }
-             
                 ++filesCount;
-
-                if (fileInfo.Path.Contains("1.p7b"))
-                    content = content;
-                
                 //search in filename
                 if (SearchInFilenames || SearchOnlyInFilenames) {
                     if (Fcn.FileName(fileInfo.Path).ToLower().Contains(PatternWithSpecialChars)) {
@@ -340,12 +361,6 @@ namespace Localiza
                 }
 
             }
-
-
-
-
-
-
         }
     }
 

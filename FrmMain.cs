@@ -14,9 +14,6 @@ namespace Localiza
 {
     public partial class FrmMain : Form
     {
-        //Definidas aqui para ver se fica mais rápido!
-        Encoding enc;
-        string fileName;
         Search s;
         bool hasBeenAlertedAboutRegularExpressionsInsideWholeWordPattern = false;
 
@@ -78,7 +75,7 @@ namespace Localiza
                 if (s.ElapsedSpan.Minutes < 1)
                     statusStrip.Items[0].Text += s.ElapsedSpan.Seconds + " segundo(s) e " + s.ElapsedSpan.Milliseconds + " milissegundos.";
                 else
-                    statusStrip.Items[0].Text += s.ElapsedSpan.Minutes + " minutos(s) e " + (s.ElapsedSpan.Seconds%60) + " segundo(s).";
+                    statusStrip.Items[0].Text += (s.ElapsedSpan.Seconds / 60) + " minutos(s) e " + (s.ElapsedSpan.Seconds%60) + " segundo(s).";
             MessageBox.Show("Terminado");
         }
 
@@ -180,12 +177,13 @@ namespace Localiza
 
         private void dg_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
          
-            string file;
+            string file= dg.CurrentRow.Cells[2].Value.ToString();
+            string programfiles = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles);
+            string notepadpp = programfiles + @"\Notepad++\notepad++.exe";
+
             try {
-                file = dg.CurrentRow.Cells[2].Value.ToString();
-                Fcn.CommandLineExecuteInBackground(@"%programfiles%\Notepad++\Notepad++.exe", file, "");
+                Fcn.CommandLineExecuteInBackground(notepadpp, file, "");
             } catch {
-                file = dg.CurrentRow.Cells[2].Value.ToString();
                 Fcn.CommandLineExecuteInBackground("Notepad.exe", file, "");
             }
         }
