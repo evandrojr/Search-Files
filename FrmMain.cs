@@ -63,8 +63,10 @@ namespace Localiza
                 dg[3, y].Value = Fcn.Extension(s.ResultLst[y].Filename);
                 dg[4, y].Value = File.GetLastWriteTime(s.ResultLst[y].Filename);
                 dg[5, y].Value = f.Length.ToString();
-                if(s.ResultLst[y] != null)
+                if (s.ResultLst[y].Encoding != null)
                     dg[6, y].Value = s.ResultLst[y].Encoding.EncodingName;
+                else
+                    dg[6, y].Value = "<Desconhecida>";
                 dg.RowCount++;
             }
             dg.RowCount--;
@@ -79,107 +81,6 @@ namespace Localiza
                     statusStrip.Items[0].Text += s.ElapsedSpan.Minutes + " minutos(s) e " + (s.ElapsedSpan.Seconds%60) + " segundo(s).";
             MessageBox.Show("Terminado");
         }
-
-
-        /// <summary>
-        /// Detect if a file is text and detect the encoding.
-        /// </summary>
-        /// <param name="encoding">
-        /// The detected encoding.
-        /// </param>
-        /// <param name="fileName">
-        /// The file name.
-        /// </param>
-        /// <param name="windowSize">
-        /// The number of characters to use for testing.
-        /// </param>
-        /// <returns>
-        /// true if the file is text.
-        /// </returns>
-        public static bool IsText(out Encoding encoding, string fileName, int windowSize)
-        {
-            using (var fileStream = File.OpenRead(fileName))
-            {
-                var rawData = new byte[windowSize];
-                var text = new char[windowSize];
-                var isText = true;
-
-                // Read raw bytes
-                var rawLength = fileStream.Read(rawData, 0, rawData.Length);
-                fileStream.Seek(0, SeekOrigin.Begin);
-
-                // Detect encoding correctly (from Rick Strahl's blog)
-                // http://www.west-wind.com/weblog/posts/2007/Nov/28/Detecting-Text-Encoding-for-StreamReader
-                if (rawData[0] == 0xef && rawData[1] == 0xbb && rawData[2] == 0xbf)
-                {
-                    encoding = Encoding.UTF8;
-                }
-                else if (rawData[0] == 0xfe && rawData[1] == 0xff)
-                {
-                    encoding = Encoding.Unicode;
-                }
-                else if (rawData[0] == 0 && rawData[1] == 0 && rawData[2] == 0xfe && rawData[3] == 0xff)
-                {
-                    encoding = Encoding.UTF32;
-                }
-                else if (rawData[0] == 0x2b && rawData[1] == 0x2f && rawData[2] == 0x76)
-                {
-                    encoding = Encoding.UTF7;
-                }
-                else
-                {
-                    encoding = Encoding.Default;
-                }
-
-                // Read text and detect the encoding
-                using (var streamReader = new StreamReader(fileStream))
-                {
-                    streamReader.Read(text, 0, text.Length);
-                }
-
-                using (var memoryStream = new MemoryStream())
-                {
-                    using (var streamWriter = new StreamWriter(memoryStream, encoding))
-                    {
-                        // Write the text to a buffer
-                        streamWriter.Write(text);
-                        streamWriter.Flush();
-
-                        // Get the buffer from the memory stream for comparision
-                        var memoryBuffer = memoryStream.GetBuffer();
-
-                        // Compare only bytes read
-                        for (var i = 0; i < rawLength && isText; i++)
-                        {
-                            isText = rawData[i] == memoryBuffer[i];
-                        }
-                    }
-                }
-
-                return isText;
-            }
-        }
-
-
-        private void checkFilesCaseSensitive(string pattern, string path)
-        {
-            string[] directories = Directory.GetDirectories(path);
-            string[] files = Directory.GetFiles(path);
-            
-            for(int i = 0; i < files.Length; i++)
-            {
-                fileName = files[i].Substring(files[i].LastIndexOf('\\') + 1);
-                if (IsText(out enc, files[i], 50) &&  fileName != ".copyarea.db")
-                    if (files[i].Contains(pattern))
-                        //rtbMatches.Text += fileName + "".PadRight(Math.Abs(60 - fileName.Length), ' ') + "\t" + files[i] + "\n";
-                        dg.Rows.Add(fileName, files[i]);
-            }
-            for (int i = 0; i < directories.Length; i++)
-            {
-                checkFilesCaseSensitive(pattern, directories[i]);
-            }
-        }
-
 
         private void btnDir_Click(object sender, EventArgs e)
         {
@@ -278,10 +179,11 @@ namespace Localiza
         }
 
         private void dg_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
+         
             string file;
             try {
                 file = dg.CurrentRow.Cells[2].Value.ToString();
-                Fcn.CommandLineExecuteInBackground(@"%ProgramFiles%\Notepad++\Notepad++.exe", file, "");
+                Fcn.CommandLineExecuteInBackground(@"%programfiles%\Notepad++\Notepad++.exe", file, "");
             } catch {
                 file = dg.CurrentRow.Cells[2].Value.ToString();
                 Fcn.CommandLineExecuteInBackground("Notepad.exe", file, "");

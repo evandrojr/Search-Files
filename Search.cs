@@ -10,9 +10,8 @@ using System.Collections;
 using System.Threading;
 using ShowLib;
 using System.Text.RegularExpressions;
-using Ude.Core;
 using System.Web;
-using Ude;
+using System.Diagnostics;
 
 namespace Localiza
 {
@@ -28,7 +27,7 @@ namespace Localiza
         public bool SearchOnlyInFilenames;
         public bool DecodeHtml;
         public List<Result> ResultLst = new List<Result>();
-        public List<FileInfo> FileLst;
+        public List<FileInformation> FileLst;
         public TimeSpan ElapsedSpan;
         public bool SearchWholeWord;
         private List<string> BinaryExtensions;
@@ -52,11 +51,12 @@ namespace Localiza
 
         }
 
-        public struct FileInfo
+        public struct FileInformation
         {
             public string Path;
             public Encoding Encoding;
             public bool Text;
+            public long size;
         }
 
 
@@ -64,13 +64,13 @@ namespace Localiza
         /// <summary>Pega informação sobre tipo e codificação do arquivo</summary>
         /// <param name="b">Caminho do diretório desejado</param>
         /// <returns>Stringlist com os caminhos dos arquivos existentes no diretório</returns>
-        public List<FileInfo> DirectoryGetFilesInfoRecusive(string b) {
+        public List<FileInformation> DirectoryGetFilesInfoRecusive(string b) {
 
             bool binaryExtensionFound=false;
 
             // 1.
             // Store results in the file results list.
-            List<FileInfo> result = new List<FileInfo>();
+            List<FileInformation> result = new List<FileInformation>();
 
             // 2.
             // Store a stack of our directories.
@@ -93,8 +93,14 @@ namespace Localiza
                     //Era o original
                     //result.AddRange(Directory.GetFiles(dir, "*.*"));
                     foreach (string s in Directory.GetFiles(dir, "*.*")) {
-                        FileInfo fi = new FileInfo();
+
+                        //if (s.Contains("1.PDF"))
+                        //    binaryExtensionFound = binaryExtensionFound;
+
+                        FileInformation fi = new FileInformation();
                         fi.Path = s;
+                        FileInfo info = new FileInfo(s);
+                        fi.size = info.Length;
                         //1st check it the file has a common type of binary extension
                         binaryExtensionFound = false;
                         foreach (string extension in BinaryExtensions) {
@@ -107,9 +113,10 @@ namespace Localiza
                             fi.Encoding = null;
                             fi.Text = false;
                         } else {
-                            fi.Text = Fcn.IsText(out fi.Encoding, s, 1000);
-                            result.Add(fi);
+                            fi.Text = true;
+                            Fcn.TryToDetectEncoding(out fi.Encoding, s, 500);
                         }
+                        result.Add(fi);
                     }
 
                     // C
@@ -141,6 +148,11 @@ namespace Localiza
             BinaryExtensions.Add(".zip");
             BinaryExtensions.Add(".jpg");
             BinaryExtensions.Add(".pdf");
+            BinaryExtensions.Add(".db");
+            BinaryExtensions.Add(".p7z");
+            BinaryExtensions.Add(".p7b");
+            BinaryExtensions.Add(".suo");
+            BinaryExtensions.Add(".pfx");
         }
 
         public static string RemoveRegExSpecialChars(string j)
@@ -197,73 +209,59 @@ namespace Localiza
             }
         }
 
-
         public void SearchForContentAndFilename()
         {
            
-            string content;          
+            string content="";
+            int filesCount=1;
+            Process proc; 
+            //Logger.Info(proc.PeakWorkingSet64 / 1024 + "kb");
 
-            foreach (FileInfo fileInfo in FileLst)
+            foreach (FileInformation fileInfo in FileLst)
             {
-               //search in filename
+
+                if (filesCount % 200 == 0) {
+                    proc = Process.GetCurrentProcess();
+                    if (proc.PeakWorkingSet64 / 1024 > 50000)
+                        GC.Collect();
+                }
+             
+                ++filesCount;
+
+                if (fileInfo.Path.Contains("1.p7b"))
+                    content = content;
+                
+                //search in filename
                 if (SearchInFilenames || SearchOnlyInFilenames) {
                     if (Fcn.FileName(fileInfo.Path).ToLower().Contains(PatternWithSpecialChars)) {
                        ResultAdd(fileInfo.Path, fileInfo.Encoding);
                         continue; //Does not need to add the same result twice!
                     }
                }
-               if (!SearchOnlyInFilenames) { 
-                    if (fileInfo.Encoding != null || SearchBinaryFiles) {
-                        //Search text
-                        if (fileInfo.Encoding != null) {
-                            content = File.ReadAllText(fileInfo.Path, fileInfo.Encoding);
-                            if (MatchContent(content, fileInfo.Encoding)) {
-                                ResultAdd(fileInfo.Path, fileInfo.Encoding);
-                            }
+                if (!SearchOnlyInFilenames && fileInfo.size < 30 * 1048576) { 
+                        //Seach text files    
+                        if (fileInfo.Text) {
+                                if (fileInfo.Encoding != null)
+                                    content = File.ReadAllText(fileInfo.Path, fileInfo.Encoding);
+                                else
+                                    content = File.ReadAllText(fileInfo.Path, Encoding.Default);
+                                if (MatchContent(content, fileInfo.Encoding)) {
+                                    ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                                }
                         } else {
-                            //Search binary file
-                            content = File.ReadAllText(fileInfo.Path, Encoding.Default);
-                            if (MatchContent(content, Encoding.Default))
-                                ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                            if (SearchBinaryFiles) {
+                                //Search binary file
+                                content = File.ReadAllText(fileInfo.Path, Encoding.Default);
+                                if (MatchContent(content, Encoding.Default))
+                                    ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                            }
                         }
-                    }
+
                 }
             }
         }
 
-        //Very very slow! Better to not use it!
-        private Encoding EncodingDetect(string file) {
 
-            using (FileStream fs = File.OpenRead(file)) {
-            ICharsetDetector cdet = new CharsetDetector();
-            cdet.Feed(fs);
-            cdet.DataEnd();
-                if (cdet.Charset != null)         {
-                    switch (cdet.Charset) {
-                        case "UTF-8":
-                            return Encoding.UTF8;
-                        case "ASCII":
-                            return Encoding.Default;
-                        case "UTF-16LE":
-                            return Encoding.Unicode;
-                        case "UTF-16BE":
-                            return Encoding.BigEndianUnicode;
-                        case "UTF-32BE:":
-                            return Encoding.UTF32;
-                        case "UTF-32LE:":
-                            return Encoding.UTF32;
-                        case "X-ISO-10646-UCS-4-3412":
-                            return Encoding.UTF32;
-                        case "X-ISO-10646-UCS-4-2413":
-                            return Encoding.UTF32;
-                        default:
-                            return Encoding.Default;
-                    }
-                } else {
-                    return null;
-                }
-            }
-        }
 
         private bool MatchContent(string content, Encoding enc) {
 

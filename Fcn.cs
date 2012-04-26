@@ -8,6 +8,7 @@ using System.Security;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.IO; 
+using Ude;
 
 namespace ShowLib
 {
@@ -171,7 +172,7 @@ namespace ShowLib
 
 
         /// <summary>
-        /// Try to detect if a file is text and detect the encoding.
+        /// Try to detect the encoding
         /// </summary>
         /// <param name="encoding">
         /// The detected encoding.
@@ -185,13 +186,13 @@ namespace ShowLib
         /// <returns>
         /// true if the file is text.
         /// </returns>
-        public static bool IsText(out Encoding encoding, string fileName, int windowSize)
+        public static bool TryToDetectEncoding(out Encoding encoding, string fileName, int windowSize)
         {
             using (var fileStream = File.OpenRead(fileName))
             {
                 var rawData = new byte[windowSize];
                 var text = new char[windowSize];
-                var isText = true;
+                var EncodingDetected = true;
 
                 // Read raw bytes
                 var rawLength = fileStream.Read(rawData, 0, rawData.Length);
@@ -219,9 +220,9 @@ namespace ShowLib
                     streamReader.Read(text, 0, text.Length);
                 }
 
-                isText = true;
                 using (var memoryStream = new MemoryStream())
                 {
+                    
                     using (var streamWriter = new StreamWriter(memoryStream, encoding))
                     {
                         // Write the text to a buffer
@@ -231,11 +232,12 @@ namespace ShowLib
                         // Get the buffer from the memory stream for comparision
                         var memoryBuffer = memoryStream.GetBuffer();
 
+                        EncodingDetected = true;
                         // Compare only bytes read
                         for (var i = 0; i < rawLength; i++)
                         {
                             if (rawData[i] != memoryBuffer[i]) {
-                                isText = false;
+                                EncodingDetected = false;
                                 encoding = null;
                                 break;
                             }
@@ -244,8 +246,8 @@ namespace ShowLib
                 }
 
                 //Try again using UTF8 without BOM :)
-                if (!isText) {
-                    isText = true;
+                if (!EncodingDetected) {
+                    
                     using (var memoryStream = new MemoryStream()) {
                         using (var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8)) {
                             // Write the text to a buffer
@@ -254,24 +256,59 @@ namespace ShowLib
 
                             // Get the buffer from the memory stream for comparision
                             var memoryBuffer = memoryStream.GetBuffer();
-
+                            EncodingDetected = true;
                             // Compare only bytes read
                             for (var i = 0; i < rawLength; i++) {
                                 if (rawData[i] != memoryBuffer[i+3]) {
-                                    isText = false;
+                                    EncodingDetected = false;
                                     encoding = null;
                                     break;
                                 }
                             }
                         }
                     }
-                    if (isText)
+                    if (EncodingDetected)
                         encoding = Encoding.UTF8;
                 }
-
-                return isText;
+                return EncodingDetected;
             }
         }
+
+
+        //Very very slow! Better to not use it!
+        public static Encoding EncodingDetect(string file) {
+
+            using (FileStream fs = File.OpenRead(file)) {
+            ICharsetDetector cdet = new CharsetDetector();
+            cdet.Feed(fs);
+            cdet.DataEnd();
+                if (cdet.Charset != null)         {
+                    switch (cdet.Charset) {
+                        case "UTF-8":
+                            return Encoding.UTF8;
+                        case "ASCII":
+                            return Encoding.Default;
+                        case "UTF-16LE":
+                            return Encoding.Unicode;
+                        case "UTF-16BE":
+                            return Encoding.BigEndianUnicode;
+                        case "UTF-32BE:":
+                            return Encoding.UTF32;
+                        case "UTF-32LE:":
+                            return Encoding.UTF32;
+                        case "X-ISO-10646-UCS-4-3412":
+                            return Encoding.UTF32;
+                        case "X-ISO-10646-UCS-4-2413":
+                            return Encoding.UTF32;
+                        default:
+                            return Encoding.Default;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Descompacta para o mesmo diretório que estiver o arquivo compactado. Deve ser passado o diretório
