@@ -189,9 +189,6 @@ namespace Localiza
                 file = dg[2, e.RowIndex].Value.ToString();
                 lineCell = dg[1, e.RowIndex].Value.ToString();
                 if (file != "" && lineCell != "") {
-
-                    Search s = new Search(txtTermo.Text, txtDir.Text, cbxCaseSensitive.Checked, cbxSearchBinaryFiles.Checked, cbxSearchWholeWord.Checked, cbxUseRegularExpressions.Checked, cbxAlsoSearchInFilenames.Checked, cbxOnlySearchInFileNames.Checked, cbxDecodeHtml.Checked);
-                    s.PreProcess();
                     Search.Result r = s.LocateAllLines(file);
                     FrmViewText f = new FrmViewText();
                     f.rtb.Text = r.Results;
@@ -205,13 +202,5 @@ namespace Localiza
                 }
             }
         }
-
-        private void dg_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
-
-            
-        }
-
-
-
     }
 }

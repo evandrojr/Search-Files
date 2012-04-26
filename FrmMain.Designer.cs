@@ -224,7 +224,6 @@
             this.dg.Size = new System.Drawing.Size(916, 248);
             this.dg.TabIndex = 13;
             this.dg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellDoubleClick);
-            this.dg.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellMouseEnter);
             // 
             // grbOpcoes
             // 

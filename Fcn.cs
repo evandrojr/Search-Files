@@ -13,9 +13,6 @@ namespace ShowLib
 {
     public class Fcn
     {
-
-
-
         /// <summary>Gera uma lista lista dos arquivos contidos num determinado diretório</summary>
         /// <param name="b">Caminho do diretório desejado</param>
         /// <returns>Stringlist com os caminhos dos arquivos existentes no diretório</returns>

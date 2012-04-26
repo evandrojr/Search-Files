@@ -148,6 +148,7 @@ namespace Localiza
             BinaryExtensions.Add(".jpeg");
             BinaryExtensions.Add(".jar");
             BinaryExtensions.Add(".zip");
+            BinaryExtensions.Add(".rar");
             BinaryExtensions.Add(".jpg");
             BinaryExtensions.Add(".pdf");
             BinaryExtensions.Add(".db");
@@ -155,6 +156,25 @@ namespace Localiza
             BinaryExtensions.Add(".p7b");
             BinaryExtensions.Add(".suo");
             BinaryExtensions.Add(".pfx");
+            BinaryExtensions.Add(".cab");
+            BinaryExtensions.Add(".7z");
+            BinaryExtensions.Add(".png");
+            BinaryExtensions.Add(".gif");
+            BinaryExtensions.Add(".doc");
+            BinaryExtensions.Add(".xls");
+            BinaryExtensions.Add(".lnk");
+            BinaryExtensions.Add(".war");
+            BinaryExtensions.Add(".wmz");
+            BinaryExtensions.Add(".ziiuup");
+            BinaryExtensions.Add(".class");
+            BinaryExtensions.Add(".frx");
+            BinaryExtensions.Add(".ocx");
+            BinaryExtensions.Add(".snk");
+            BinaryExtensions.Add(".exp");
+            BinaryExtensions.Add(".lib");
+            BinaryExtensions.Add(".pdb");
+            BinaryExtensions.Add(".cer");
+            BinaryExtensions.Add(".psd");
         }
 
         public static string RemoveRegExSpecialChars(string j)
@@ -255,32 +275,35 @@ namespace Localiza
                 }
                 ++filesCount;
                 //search in filename
-                if (SearchInFilenames || SearchOnlyInFilenames) {
-                    if (Fcn.FileName(fileInfo.Path).ToLower().Contains(PatternWithSpecialChars)) {
-                       ResultAdd(fileInfo.Path, fileInfo.Encoding);
-                        continue; //Does not need to add the same result twice!
-                    }
-               }
                 if (!SearchOnlyInFilenames && fileInfo.size < 30 * 1048576) { 
                         //Seach text files    
-                        if (fileInfo.Text) {
+                        if (fileInfo.Text) {                            
                                 if (fileInfo.Encoding != null)
                                     content = File.ReadAllText(fileInfo.Path, fileInfo.Encoding);
                                 else
                                     content = File.ReadAllText(fileInfo.Path, Encoding.Default);
                                 if (MatchContent(content, fileInfo.Encoding)) {
                                     ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                                    continue; //Does not need to add the same result twice!
                                 }
                         } else {
                             if (SearchBinaryFiles) {
                                 //Search binary file
                                 content = File.ReadAllText(fileInfo.Path, Encoding.Default);
-                                if (MatchContent(content, Encoding.Default))
+                                if (MatchContent(content, Encoding.Default)) {
                                     ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                                    continue; //Does not need to add the same result twice!
+                                }
                             }
                         }
 
                 }
+                if (SearchInFilenames || SearchOnlyInFilenames) {
+                    if (Fcn.FileName(fileInfo.Path).ToLower().Contains(PatternWithSpecialChars)) {
+                        ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                    }
+                }
+
             }
         }
 
@@ -332,7 +355,7 @@ namespace Localiza
                 get {
                     string ret="";
                     foreach (TextBlock tb in TextBlockLst) {
-                        ret += "Linha " + tb.LineNumber.ToString().PadLeft(3,'0') + ":  " + tb.Text + Environment.NewLine;
+                        ret += "Linha " + tb.LineNumber.ToString().PadLeft(5,'0') + ":  " + tb.Text + Environment.NewLine;
                     }
                     return ret;
                 }
