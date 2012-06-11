@@ -96,9 +96,6 @@ namespace Localiza
                     //result.AddRange(Directory.GetFiles(dir, "*.*"));
                     foreach (string s in Directory.GetFiles(dir, "*.*")) {
 
-                        //if (s.Contains("1.PDF"))
-                        //    binaryExtensionFound = binaryExtensionFound;
-
                         FileInformation fi = new FileInformation();
                         fi.Path = s;
                         FileInfo info = new FileInfo(s);
@@ -116,7 +113,11 @@ namespace Localiza
                             fi.Text = false;
                         } else {
                             fi.Text = true;
-                            Fcn.TryToDetectEncoding(out fi.Encoding, s, 500);
+                            try {
+                                Fcn.TryToDetectEncoding(out fi.Encoding, s, 500);
+                            } catch (Exception e) {
+                               //Colocar log de erro aqui!!!
+                            }
                         }
                         result.Add(fi);
                     }
@@ -126,9 +127,10 @@ namespace Localiza
                     foreach (string dn in Directory.GetDirectories(dir)) {
                         stack.Push(dn);
                     }
-                } catch {
+                } catch(Exception ex) {
                     // D
-                    // Could not open the directory
+                    //Colocar log de erro aqui!!!
+                    //MessageBox.Show(ex.Message);
                 }
             }
             return result;
