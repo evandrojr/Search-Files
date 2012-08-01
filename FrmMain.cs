@@ -9,12 +9,15 @@ using System.IO;
 using System.Collections;
 using System.Threading;
 using ShowLib;
+using System.Reflection;
 
-namespace Localiza
+namespace Search
 {
     public partial class FrmMain : Form
     {
         Search s;
+        private Thread trd;
+
         bool hasBeenAlertedAboutRegularExpressionsInsideWholeWordPattern = false;
 
         public FrmMain()
@@ -22,37 +25,41 @@ namespace Localiza
             InitializeComponent();
         }
 
-        private void BtnLocalizar_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             string pattern = txtTermo.Text;
-            FileInfo f = null;
-            if (pattern == String.Empty || txtDir.Text == String.Empty)
-            {
+            if (pattern == String.Empty || txtDir.Text == String.Empty) {
                 MessageBox.Show("É necessário selecionar o diretório e termo procurado.", "Aviso");
                 return;
             }
-            if (!Directory.Exists(txtDir.Text))
-            {
+            if (!Directory.Exists(txtDir.Text)) {
                 MessageBox.Show("Este é um diretório inválido.", "Aviso");
                 return;
             }
+            progressBar.Value = 0;
+            lbProgress.Text = "Calculando...";
+            statusStrip.Items[0].Text = "Buscando...";
+            BtnSearch.Enabled = false;
+            btnDir.Enabled = false;
             if (cbxSearchWholeWord.Checked)
                 txtTermo.Text = Search.RemoveRegExSpecialChars(txtTermo.Text);
-
             string path = txtDir.Text;
-            File.WriteAllText("Localiza.cfg", txtDir.Text);
+            File.WriteAllText("Search.cfg", txtDir.Text);
             dg.RowCount = 1;
-            for(int i=0; i<dg.ColumnCount; ++i)
+            for (int i = 0; i < dg.ColumnCount; ++i)
                 dg[i, 0].Value = "";
             Cursor = Cursors.WaitCursor;
-            s = new Search(pattern, path, cbxCaseSensitive.Checked,cbxSearchBinaryFiles.Checked, cbxSearchWholeWord.Checked,
-                           cbxUseRegularExpressions.Checked, cbxAlsoSearchInFilenames.Checked, cbxOnlySearchInFileNames.Checked, cbxDecodeHtml.Checked);
-            statusStrip.Items[0].Text = "Favor aguardar...";
-            Application.DoEvents();
-            s.StartSearch();
+            dg.Cursor = Cursors.WaitCursor;
+            s = new Search(pattern, path, cbxCaseSensitive.Checked, cbxSearchBinaryFiles.Checked, cbxSearchWholeWord.Checked,
+               cbxUseRegularExpressions.Checked, cbxAlsoSearchInFilenames.Checked, cbxOnlySearchInFileNames.Checked, cbxDecodeHtml.Checked, this);
+            trd = new Thread(new ThreadStart(s.StartSearch));
+            trd.IsBackground = true;
+            trd.Start();
+        }
 
-            for (int y = 0; y < s.ResultLst.Count; ++y)
-            {
+        public void ShowResults(Search s) {
+            FileInfo f = null;
+            for (int y = 0; y < s.ResultLst.Count; ++y) {
                 f = new FileInfo(s.ResultLst[y].Filename);
                 dg[0, y].Value = Fcn.FileName(s.ResultLst[y].Filename);
                 dg[1, y].Value = Fcn.FileName(s.ResultLst[y].Results);
@@ -64,10 +71,10 @@ namespace Localiza
                     dg[6, y].Value = s.ResultLst[y].Encoding.EncodingName;
                 else
                     dg[6, y].Value = "<Desconhecida>";
-                dg.RowCount++;
+                if (y < s.ResultLst.Count - 1) {
+                    SetControlPropertyValue(dg, "RowCount", dg.RowCount + 1);
+                }
             }
-            dg.RowCount--;
-            Cursor = Cursors.Default;
             statusStrip.Items[0].Text = "Padrão presente em " + s.ResultLst.Count + " arquivo(s), de um total de " + s.FileLst.Count + " arquivos. Tempo decorrido ";
             if (s.ElapsedSpan.Seconds < 1)
                 statusStrip.Items[0].Text += s.ElapsedSpan.Milliseconds + " milissegundos.";
@@ -75,8 +82,12 @@ namespace Localiza
                 if (s.ElapsedSpan.Minutes < 1)
                     statusStrip.Items[0].Text += s.ElapsedSpan.Seconds + " segundo(s) e " + s.ElapsedSpan.Milliseconds + " milissegundos.";
                 else
-                    statusStrip.Items[0].Text += (s.ElapsedSpan.Seconds / 60) + " minutos(s) e " + (s.ElapsedSpan.Seconds%60) + " segundo(s).";
-            MessageBox.Show("Terminado");
+                    statusStrip.Items[0].Text += (s.ElapsedSpan.Seconds / 60) + " minutos(s) e " + (s.ElapsedSpan.Seconds % 60) + " segundo(s).";
+            SetControlPropertyValue(this, "Cursor", Cursors.Default);
+            SetControlPropertyValue(dg, "Cursor", Cursors.Default);
+            MessageBox.Show("Busca finalizada!");
+            SetControlPropertyValue(btnDir, "Enabled", true);            
+            SetControlPropertyValue(BtnSearch, "Enabled", true);            
         }
 
         private void btnDir_Click(object sender, EventArgs e)
@@ -89,13 +100,13 @@ namespace Localiza
             dg.RowCount = 1;
             folderBrowserDialog.ShowDialog();
             txtDir.Text = folderBrowserDialog.SelectedPath;
-            File.WriteAllText("Localiza.cfg",txtDir.Text);
+            File.WriteAllText("Search.cfg",txtDir.Text);
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            if (File.Exists("Localiza.cfg"))
-                txtDir.Text = File.ReadAllText("Localiza.cfg");
+            if (File.Exists("Search.cfg"))
+                txtDir.Text = File.ReadAllText("Search.cfg");
             txtTermo.Focus();
         }
 
@@ -135,9 +146,6 @@ namespace Localiza
                     MessageBox.Show("Erro ao abrir endereço", "Não foi possível abrir a página " + target + ex.Message);
                 }
             }
-
-
-
         }
 
         private void cbxAlsoSearchInFilenames_CheckedChanged(object sender, EventArgs e)
@@ -175,7 +183,6 @@ namespace Localiza
                 cbxSearchWholeWord.Checked = false;
         }
 
-
         private void dg_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
 
             string file = dg.CurrentRow.Cells[2].Value.ToString();
@@ -202,5 +209,24 @@ namespace Localiza
                 }
             }
         }
+
+
+        delegate void SetControlValueCallback(Control oControl, string propName, object propValue);
+
+        public void SetControlPropertyValue(Control oControl, string propName, object propValue) {
+            if (oControl.InvokeRequired) {
+                SetControlValueCallback d = new SetControlValueCallback(SetControlPropertyValue);
+                oControl.Invoke(d, new object[] { oControl, propName, propValue });
+            } else {
+                Type t = oControl.GetType();
+                PropertyInfo[] props = t.GetProperties();
+                foreach (PropertyInfo p in props) {
+                    if (p.Name.ToUpper() == propName.ToUpper()) {
+                        p.SetValue(oControl, propValue, null);
+                    }
+                }
+            }
+        }
+
     }
 }

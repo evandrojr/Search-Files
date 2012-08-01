@@ -1,4 +1,4 @@
-﻿namespace Localiza
+﻿namespace Search
 {
     partial class FrmMain
     {
@@ -42,15 +42,8 @@
             this.cbxSearchWholeWord = new System.Windows.Forms.CheckBox();
             this.cbxSearchBinaryFiles = new System.Windows.Forms.CheckBox();
             this.cbxCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.BtnLocalizar = new System.Windows.Forms.Button();
+            this.BtnSearch = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
-            this.grbOpcoes = new System.Windows.Forms.GroupBox();
-            this.cbxOnlySearchInFileNames = new System.Windows.Forms.CheckBox();
-            this.llManualExpressoesRegulares = new System.Windows.Forms.LinkLabel();
-            this.cbxUseRegularExpressions = new System.Windows.Forms.CheckBox();
-            this.cbxAlsoSearchInFilenames = new System.Windows.Forms.CheckBox();
-            this.grbAlso = new System.Windows.Forms.GroupBox();
-            this.cbxDecodeHtml = new System.Windows.Forms.CheckBox();
             this.Arquivo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Linha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Caminho = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,9 +51,18 @@
             this.DateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tamanho = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Codificacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grbOpcoes = new System.Windows.Forms.GroupBox();
+            this.cbxOnlySearchInFileNames = new System.Windows.Forms.CheckBox();
+            this.llManualExpressoesRegulares = new System.Windows.Forms.LinkLabel();
+            this.cbxUseRegularExpressions = new System.Windows.Forms.CheckBox();
+            this.cbxAlsoSearchInFilenames = new System.Windows.Forms.CheckBox();
+            this.grbAlso = new System.Windows.Forms.GroupBox();
+            this.cbxDecodeHtml = new System.Windows.Forms.CheckBox();
             this.lblIntrucao1 = new System.Windows.Forms.Label();
             this.lblInstrucao2 = new System.Windows.Forms.Label();
             this.groupBoxAjuda = new System.Windows.Forms.GroupBox();
+            this.lbProgress = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.statusStrip.SuspendLayout();
             this.grbArquivos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -190,17 +192,17 @@
             this.cbxCaseSensitive.Text = "Diferenciar letras maiúsculas de minúsculas";
             this.cbxCaseSensitive.UseVisualStyleBackColor = true;
             // 
-            // BtnLocalizar
+            // BtnSearch
             // 
-            this.BtnLocalizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnLocalizar.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.BtnLocalizar.Location = new System.Drawing.Point(769, 209);
-            this.BtnLocalizar.Name = "BtnLocalizar";
-            this.BtnLocalizar.Size = new System.Drawing.Size(128, 39);
-            this.BtnLocalizar.TabIndex = 1;
-            this.BtnLocalizar.Text = "Procurar";
-            this.BtnLocalizar.UseVisualStyleBackColor = true;
-            this.BtnLocalizar.Click += new System.EventHandler(this.BtnLocalizar_Click);
+            this.BtnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnSearch.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.BtnSearch.Location = new System.Drawing.Point(778, 218);
+            this.BtnSearch.Name = "BtnSearch";
+            this.BtnSearch.Size = new System.Drawing.Size(128, 39);
+            this.BtnSearch.TabIndex = 1;
+            this.BtnSearch.Text = "Procurar";
+            this.BtnSearch.UseVisualStyleBackColor = true;
+            this.BtnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // dg
             // 
@@ -224,6 +226,54 @@
             this.dg.Size = new System.Drawing.Size(916, 248);
             this.dg.TabIndex = 13;
             this.dg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellDoubleClick);
+            // 
+            // Arquivo
+            // 
+            this.Arquivo.FillWeight = 200F;
+            this.Arquivo.HeaderText = "Arquivo";
+            this.Arquivo.Name = "Arquivo";
+            this.Arquivo.ReadOnly = true;
+            this.Arquivo.Width = 200;
+            // 
+            // Linha
+            // 
+            this.Linha.FillWeight = 500F;
+            this.Linha.HeaderText = "Linha(s)";
+            this.Linha.Name = "Linha";
+            this.Linha.ReadOnly = true;
+            this.Linha.Width = 500;
+            // 
+            // Caminho
+            // 
+            this.Caminho.FillWeight = 500F;
+            this.Caminho.HeaderText = "Caminho";
+            this.Caminho.Name = "Caminho";
+            this.Caminho.ReadOnly = true;
+            this.Caminho.Width = 500;
+            // 
+            // Extensao
+            // 
+            this.Extensao.HeaderText = "Extensão";
+            this.Extensao.Name = "Extensao";
+            this.Extensao.ReadOnly = true;
+            // 
+            // DateModified
+            // 
+            this.DateModified.HeaderText = "Modificação";
+            this.DateModified.Name = "DateModified";
+            this.DateModified.ReadOnly = true;
+            // 
+            // Tamanho
+            // 
+            this.Tamanho.HeaderText = "Tamanho";
+            this.Tamanho.Name = "Tamanho";
+            this.Tamanho.ReadOnly = true;
+            // 
+            // Codificacao
+            // 
+            this.Codificacao.HeaderText = "Codificação";
+            this.Codificacao.Name = "Codificacao";
+            this.Codificacao.ReadOnly = true;
             // 
             // grbOpcoes
             // 
@@ -311,54 +361,6 @@
             this.cbxDecodeHtml.Text = "Decodificando os código HTML";
             this.cbxDecodeHtml.UseVisualStyleBackColor = true;
             // 
-            // Arquivo
-            // 
-            this.Arquivo.FillWeight = 200F;
-            this.Arquivo.HeaderText = "Arquivo";
-            this.Arquivo.Name = "Arquivo";
-            this.Arquivo.ReadOnly = true;
-            this.Arquivo.Width = 200;
-            // 
-            // Linha
-            // 
-            this.Linha.FillWeight = 500F;
-            this.Linha.HeaderText = "Linha(s)";
-            this.Linha.Name = "Linha";
-            this.Linha.ReadOnly = true;
-            this.Linha.Width = 500;
-            // 
-            // Caminho
-            // 
-            this.Caminho.FillWeight = 500F;
-            this.Caminho.HeaderText = "Caminho";
-            this.Caminho.Name = "Caminho";
-            this.Caminho.ReadOnly = true;
-            this.Caminho.Width = 500;
-            // 
-            // Extensao
-            // 
-            this.Extensao.HeaderText = "Extensão";
-            this.Extensao.Name = "Extensao";
-            this.Extensao.ReadOnly = true;
-            // 
-            // DateModified
-            // 
-            this.DateModified.HeaderText = "Modificação";
-            this.DateModified.Name = "DateModified";
-            this.DateModified.ReadOnly = true;
-            // 
-            // Tamanho
-            // 
-            this.Tamanho.HeaderText = "Tamanho";
-            this.Tamanho.Name = "Tamanho";
-            this.Tamanho.ReadOnly = true;
-            // 
-            // Codificacao
-            // 
-            this.Codificacao.HeaderText = "Codificação";
-            this.Codificacao.Name = "Codificacao";
-            this.Codificacao.ReadOnly = true;
-            // 
             // lblIntrucao1
             // 
             this.lblIntrucao1.AutoSize = true;
@@ -394,22 +396,40 @@
             this.groupBoxAjuda.TabStop = false;
             this.groupBoxAjuda.Text = "Ajuda";
             // 
+            // lbProgress
+            // 
+            this.lbProgress.AutoSize = true;
+            this.lbProgress.Location = new System.Drawing.Point(599, 210);
+            this.lbProgress.Name = "lbProgress";
+            this.lbProgress.Size = new System.Drawing.Size(74, 13);
+            this.lbProgress.TabIndex = 19;
+            this.lbProgress.Text = "Progresso: 0%";
+            // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(513, 232);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(250, 23);
+            this.progressBar.TabIndex = 20;
+            // 
             // FrmMain
             // 
-            this.AcceptButton = this.BtnLocalizar;
+            this.AcceptButton = this.BtnSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(916, 538);
+            this.Controls.Add(this.progressBar);
+            this.Controls.Add(this.lbProgress);
             this.Controls.Add(this.groupBoxAjuda);
             this.Controls.Add(this.grbAlso);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.grbArquivos);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.BtnLocalizar);
+            this.Controls.Add(this.BtnSearch);
             this.Controls.Add(this.grbOpcoes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
-            this.Text = "Localiza padrões em arquivos";
+            this.Text = "Search padrões em arquivos";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -439,7 +459,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTermo;
         private System.Windows.Forms.TextBox txtDir;
-        private System.Windows.Forms.Button BtnLocalizar;
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.ToolStripStatusLabel lblTime;
         private System.Windows.Forms.CheckBox cbxSearchBinaryFiles;
@@ -461,6 +480,9 @@
         private System.Windows.Forms.Label lblIntrucao1;
         private System.Windows.Forms.Label lblInstrucao2;
         private System.Windows.Forms.GroupBox groupBoxAjuda;
+        public System.Windows.Forms.Button BtnSearch;
+        public System.Windows.Forms.ProgressBar progressBar;
+        public System.Windows.Forms.Label lbProgress;
     }
 }
 

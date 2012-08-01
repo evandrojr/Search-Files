@@ -1,4 +1,4 @@
-﻿namespace Localiza
+﻿namespace Search
 {
     partial class FrmViewText
     {

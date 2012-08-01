@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Localiza
+namespace Search
 {
     static class Program
     {

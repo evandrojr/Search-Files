@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Diagnostics;
 
-namespace Localiza
+namespace Search
 {
     public class Search
     {
@@ -32,12 +32,13 @@ namespace Localiza
         public bool SearchWholeWord;
         private List<string> BinaryExtensions;
         public static string RegExSpecialChars= @"^,?,*,+,\,.,-,|,(,),$,{,},[,],<,>,=,*";
-
+        private FrmMain Form;
+        private int progress;
 
         public Search(){}
 
         public Search(string pattern, string dir, bool caseSensitive, bool searchBinaryFiles, bool serchWholeWord,
-                                        bool regularExpression, bool searchInFileNames, bool searchOnlyInFilenames, bool decodeHml)
+                                        bool regularExpression, bool searchInFileNames, bool searchOnlyInFilenames, bool decodeHml, FrmMain form)
         {
             this.Pattern= pattern;
             this.PatternWithSpecialChars = pattern;
@@ -50,6 +51,7 @@ namespace Localiza
             this.SearchInFilenames = searchInFileNames;
             this.SearchOnlyInFilenames = searchOnlyInFilenames;
             this.DecodeHtml = decodeHml;
+            this.Form = form;
 
         }
 
@@ -130,7 +132,7 @@ namespace Localiza
                 } catch(Exception ex) {
                     // D
                     //Colocar log de erro aqui!!!
-                    //MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);bbbbb
                 }
             }
             return result;
@@ -206,6 +208,7 @@ namespace Localiza
             SearchForContentAndFilename();
             Locate1stLine();
             ElapsedSpan = new TimeSpan(DateTime.Now.Ticks - startTime);
+            Form.ShowResults(this);
         }
 
 
@@ -242,7 +245,6 @@ namespace Localiza
             string line = null;
             Encoding enc;
 
-
             for (int i = 0; i < ResultLst.Count; ++i) {
                 enc = ResultLst[i].Encoding;
                 if (enc == null)
@@ -263,13 +265,13 @@ namespace Localiza
 
         public void SearchForContentAndFilename()
         {
-           
             string content="";
             int filesCount=1;
-            Process proc; 
+            int searchedFilesCount = 0;
+            Process proc;
+            Form.SetControlPropertyValue(Form.progressBar, "value", 0);
             foreach (FileInformation fileInfo in FileLst)
             {
-
                 if (filesCount % 200 == 0) {
                     proc = Process.GetCurrentProcess();
                     if (proc.PeakWorkingSet64 / 1024 > 50000)
@@ -286,6 +288,7 @@ namespace Localiza
                                     content = File.ReadAllText(fileInfo.Path, Encoding.Default);
                                 if (MatchContent(content, fileInfo.Encoding)) {
                                     ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                                    updateProgress(++searchedFilesCount);
                                     continue; //Does not need to add the same result twice!
                                 }
                         } else {
@@ -294,22 +297,30 @@ namespace Localiza
                                 content = File.ReadAllText(fileInfo.Path, Encoding.Default);
                                 if (MatchContent(content, Encoding.Default)) {
                                     ResultAdd(fileInfo.Path, fileInfo.Encoding);
+                                    updateProgress(++searchedFilesCount);
                                     continue; //Does not need to add the same result twice!
                                 }
                             }
                         }
-
                 }
                 if (SearchInFilenames || SearchOnlyInFilenames) {
                     if (Fcn.FileName(fileInfo.Path).ToLower().Contains(PatternWithSpecialChars)) {
                         ResultAdd(fileInfo.Path, fileInfo.Encoding);
                     }
                 }
-
+                updateProgress(++searchedFilesCount);
             }
         }
 
-
+        private void updateProgress(int searchedFilesCount) {
+            int _progress = (int)((double)(searchedFilesCount * 100) / FileLst.Count);
+            if (progress == _progress)
+                return;
+            else
+                progress = _progress;
+            Form.SetControlPropertyValue(Form.progressBar, "value", progress);
+            Form.SetControlPropertyValue(Form.lbProgress, "text", "Progresso: " + progress + "%");
+        }
 
         private bool MatchContent(string content, Encoding enc) {
 

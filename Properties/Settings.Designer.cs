@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localiza.Properties {
+namespace Search.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
