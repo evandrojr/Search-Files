@@ -1,3 +1,5 @@
+==================================English====================================================
+
 ====Description======
 
 Search Files, a simple multiplatform software for text and file search.
@@ -26,6 +28,49 @@ Linux/FreeBSD:
 	Alternativelly you can run the script as long you put it in the same directory of searchfiles.exe.
 	https://github.com/evandrojr/Search-Files/blob/master/scripts/searchfiles.sh?raw=true (right click and save the file in the same directory of searchfiles.exe)
 	
+
+==================================Portuguese====================================================
+
+Descrição
+
+Programa multiplataforma para pesquisar texto em arquivos. Funciona com arquivos unicode e outros tipos de conjunto de caracteres.
+
+ Instruções
+
+	 Faça o download do executável a partir de: 
+	 https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/searchfiles.exe?raw=true
+
+ Windows:
+
+	 Para executar a partir do Windows basta clicar duas vezes em: searchfiles.exe.
+
+ Linux / FreeBSD:	
+
+                 Para executar a partir de Linux ou Freebsd, primeiro instalar o Mono com o suporte ao Windows Forms.
+
+               Linux:
+		 sudo apt-get install mono-winforms-ally
+
+              FreeBSD
+
+              baixar e instalar: 
+              http://code.google.com/p/bsd-sharp/downloads/detail?name=portshaker-1.0.4.tar.gz&can=2&q=
+
+              em seguida, execute:
+
+		 mono searchfiles.exe
+
+	 Alternativamente você pode executar o script abaixo:
+
+	 https://github.com/evandrojr/Search-Files/blob/master/scripts/searchfiles.sh?raw=true
+
+                 (Use o botão direito e salve o arquivo no mesmo diretório de searchfiles.exe definindo searchfiles.sh como arquivo tipo executável +x)
+
+Bugs:
+Abrir tiquete no github ou mandar email mesmo.
+
 	
 Hope you'll enjoy!
 Evandrojr@gmai.com	
+
+
