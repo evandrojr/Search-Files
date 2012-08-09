@@ -47,7 +47,7 @@
             this.Controls.Add(this.rtb);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmViewText";
-            this.Text = "Referências encontradas:";
+            this.Text = "Contents:";
             this.ResumeLayout(false);
 
         }
