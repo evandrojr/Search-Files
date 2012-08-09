@@ -6,14 +6,14 @@ Evandrojr@gmai.com
 Windows:
 
 	Download the executable from: 
-	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/Localiza.exe?raw=true
+	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/searchfiles.exe?raw=true
 
-	To execute from Windows just double click on: Localiza.exe or Localiza in case you cannot see the .exe extension.
+	To execute from Windows just double click on: searchfiles.exe or searchfiles in case you cannot see the .exe extension.
 	
 Linux/FreeBSD:	
 
 	Download the executable from: 
-	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/Localiza.exe?raw=true
+	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/searchfiles.exe?raw=true
 
 	To execute from Linux, 1st install Mono with Windows Forms support.
 
@@ -21,4 +21,4 @@ Linux/FreeBSD:
 
 	then run:
 
-	mono Localiza.exe
+	mono searchfiles.exe
