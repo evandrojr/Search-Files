@@ -17,12 +17,16 @@ namespace Search
     {
         Search s;
         private Thread trd;
+        OperatingSystem OS = Environment.OSVersion;
+        PlatformID PlatformID;
+        
 
         bool hasBeenAlertedAboutRegularExpressionsInsideWholeWordPattern = false;
 
         public FrmMain()
         {
             InitializeComponent();
+            PlatformID PlatformID = OS.Platform;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -189,6 +193,7 @@ namespace Search
             string lineCell;
             string programfiles = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles);
             string notepadpp = programfiles + @"\Notepad++\notepad++.exe";
+            
 
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
@@ -202,10 +207,25 @@ namespace Search
                     f.Show(this);
                 }
             } else {
-                try {
-                    Fcn.CommandLineExecuteInBackground(notepadpp, file, "");
-                } catch {
-                    Fcn.CommandLineExecuteInBackground("Notepad.exe", file, "");
+
+                if (PlatformID == PlatformID.Unix) {
+                    string content = File.ReadAllText(file);
+                    FrmViewText f = new FrmViewText();
+                    f.rtb.Text = content;
+                    f.Show(this);
+                } else {
+                    try {
+                        Fcn.CommandLineExecuteInBackground(notepadpp, file, "");
+                    } catch {
+                        try {
+                            Fcn.CommandLineExecuteInBackground("Notepad.exe", file, "");
+                        } catch {
+                            string content = File.ReadAllText(file);
+                            FrmViewText f = new FrmViewText();
+                            f.rtb.Text = content;
+                            f.Show(this);
+                        }
+                    }
                 }
             }
         }

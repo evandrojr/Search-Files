@@ -400,7 +400,7 @@
             // lbProgress
             // 
             this.lbProgress.AutoSize = true;
-            this.lbProgress.Location = new System.Drawing.Point(679, 216);
+            this.lbProgress.Location = new System.Drawing.Point(670, 213);
             this.lbProgress.Name = "lbProgress";
             this.lbProgress.Size = new System.Drawing.Size(74, 13);
             this.lbProgress.TabIndex = 19;
@@ -410,7 +410,7 @@
             // 
             this.progressBar.Location = new System.Drawing.Point(513, 232);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(391, 23);
+            this.progressBar.Size = new System.Drawing.Size(384, 23);
             this.progressBar.TabIndex = 20;
             // 
             // FrmMain
