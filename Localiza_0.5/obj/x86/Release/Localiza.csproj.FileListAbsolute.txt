@@ -1,9 +1,0 @@
-C:\dev\Localiza\bin\Release\Localiza.exe
-C:\dev\Localiza\bin\Release\Localiza.pdb
-C:\dev\Localiza\obj\x86\Release\ResolveAssemblyReference.cache
-C:\dev\Localiza\obj\x86\Release\Localiza.FrmMain.resources
-C:\dev\Localiza\obj\x86\Release\Localiza.Properties.Resources.resources
-C:\dev\Localiza\obj\x86\Release\GenerateResource.read.1.tlog
-C:\dev\Localiza\obj\x86\Release\GenerateResource.write.1.tlog
-C:\dev\Localiza\obj\x86\Release\Localiza.exe
-C:\dev\Localiza\obj\x86\Release\Localiza.pdb
