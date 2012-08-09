@@ -1,5 +1,7 @@
-This is my search program, hope you´ll enjoy!
-Evandrojr@gmai.com
+====Description======
+
+Search Files, a simple multiplatform software for text and file search.
+It is supposed to work with unicode and other fancy text encoding.
 
 ====Instructions====
 
@@ -7,18 +9,23 @@ Windows:
 
 	Download the executable from: 
 	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/searchfiles.exe?raw=true
-
 	To execute from Windows just double click on: searchfiles.exe or searchfiles in case you cannot see the .exe extension.
 	
 Linux/FreeBSD:	
 
 	Download the executable from: 
 	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/searchfiles.exe?raw=true
-
 	To execute from Linux, 1st install Mono with Windows Forms support.
 
-	sudo apt-get install mono-winforms-ally
+		sudo apt-get install mono-winforms-ally
 
 	then run:
 
-	mono searchfiles.exe
+		mono searchfiles.exe
+	
+	Alternativelly you can run the script as long you put it in the same directory of searchfiles.exe.
+	https://github.com/evandrojr/Search-Files/blob/master/scripts/searchfiles.sh?raw=true (right click with and save the file in the same directory of searchfiles.exe)
+	
+	
+Hope you'll enjoy!
+Evandrojr@gmai.com	
