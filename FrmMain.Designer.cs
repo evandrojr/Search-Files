@@ -181,6 +181,7 @@
             this.cbxSearchBinaryFiles.TabIndex = 3;
             this.cbxSearchBinaryFiles.Text = "Em arquivos binários";
             this.cbxSearchBinaryFiles.UseVisualStyleBackColor = true;
+            this.cbxSearchBinaryFiles.Visible = false;
             // 
             // cbxCaseSensitive
             // 

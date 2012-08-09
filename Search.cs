@@ -163,6 +163,7 @@ namespace Search
             BinaryExtensions.Add(".cab");
             BinaryExtensions.Add(".7z");
             BinaryExtensions.Add(".png");
+            BinaryExtensions.Add(".mp3");
             BinaryExtensions.Add(".gif");
             BinaryExtensions.Add(".doc");
             BinaryExtensions.Add(".xls");
