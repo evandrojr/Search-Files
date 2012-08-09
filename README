@@ -24,7 +24,7 @@ Linux/FreeBSD:
 		mono searchfiles.exe
 	
 	Alternativelly you can run the script as long you put it in the same directory of searchfiles.exe.
-	https://github.com/evandrojr/Search-Files/blob/master/scripts/searchfiles.sh?raw=true (right click with and save the file in the same directory of searchfiles.exe)
+	https://github.com/evandrojr/Search-Files/blob/master/scripts/searchfiles.sh?raw=true (right click and save the file in the same directory of searchfiles.exe)
 	
 	
 Hope you'll enjoy!
