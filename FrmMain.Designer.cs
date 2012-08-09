@@ -103,6 +103,7 @@
             // 
             this.grbArquivos.Controls.Add(this.lblExampleDirBusca);
             this.grbArquivos.Controls.Add(this.btnDir);
+            this.grbArquivos.Controls.Add(this.cbxSearchBinaryFiles);
             this.grbArquivos.Controls.Add(this.label1);
             this.grbArquivos.Controls.Add(this.label2);
             this.grbArquivos.Controls.Add(this.txtTermo);
@@ -175,7 +176,7 @@
             // cbxSearchBinaryFiles
             // 
             this.cbxSearchBinaryFiles.AutoSize = true;
-            this.cbxSearchBinaryFiles.Location = new System.Drawing.Point(259, 19);
+            this.cbxSearchBinaryFiles.Location = new System.Drawing.Point(578, 54);
             this.cbxSearchBinaryFiles.Name = "cbxSearchBinaryFiles";
             this.cbxSearchBinaryFiles.Size = new System.Drawing.Size(123, 17);
             this.cbxSearchBinaryFiles.TabIndex = 3;
@@ -197,9 +198,9 @@
             // 
             this.BtnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSearch.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.BtnSearch.Location = new System.Drawing.Point(778, 218);
+            this.BtnSearch.Location = new System.Drawing.Point(722, 128);
             this.BtnSearch.Name = "BtnSearch";
-            this.BtnSearch.Size = new System.Drawing.Size(128, 39);
+            this.BtnSearch.Size = new System.Drawing.Size(182, 66);
             this.BtnSearch.TabIndex = 1;
             this.BtnSearch.Text = "Procurar";
             this.BtnSearch.UseVisualStyleBackColor = true;
@@ -341,11 +342,10 @@
             // 
             this.grbAlso.Controls.Add(this.cbxDecodeHtml);
             this.grbAlso.Controls.Add(this.cbxAlsoSearchInFilenames);
-            this.grbAlso.Controls.Add(this.cbxSearchBinaryFiles);
             this.grbAlso.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.grbAlso.Location = new System.Drawing.Point(498, 124);
             this.grbAlso.Name = "grbAlso";
-            this.grbAlso.Size = new System.Drawing.Size(408, 70);
+            this.grbAlso.Size = new System.Drawing.Size(211, 70);
             this.grbAlso.TabIndex = 15;
             this.grbAlso.TabStop = false;
             this.grbAlso.Text = "Também procurar";
@@ -400,7 +400,7 @@
             // lbProgress
             // 
             this.lbProgress.AutoSize = true;
-            this.lbProgress.Location = new System.Drawing.Point(599, 210);
+            this.lbProgress.Location = new System.Drawing.Point(679, 216);
             this.lbProgress.Name = "lbProgress";
             this.lbProgress.Size = new System.Drawing.Size(74, 13);
             this.lbProgress.TabIndex = 19;
@@ -410,7 +410,7 @@
             // 
             this.progressBar.Location = new System.Drawing.Point(513, 232);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(250, 23);
+            this.progressBar.Size = new System.Drawing.Size(391, 23);
             this.progressBar.TabIndex = 20;
             // 
             // FrmMain
@@ -430,7 +430,7 @@
             this.Controls.Add(this.grbOpcoes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
-            this.Text = "Search padrões em arquivos";
+            this.Text = "Localiza padrões em arquivos";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();

@@ -1,2 +1,24 @@
 This is my search program, hope you´ll enjoy!
 Evandrojr@gmai.com
+
+====Instructions====
+
+Windows:
+
+	Download the executable from: 
+	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/Localiza.exe?raw=true
+
+	To execute from Windows just double click on: Localiza.exe or Localiza in case you cannot see the .exe extension.
+	
+Linux/FreeBSD:	
+
+	Download the executable from: 
+	https://github.com/evandrojr/Search-Files/blob/master/bin/Debug/Localiza.exe?raw=true
+
+	To execute from Linux, 1st install Mono with Windows Forms support.
+
+	sudo apt-get install mono-winforms-ally
+
+	then run:
+
+	mono Localiza.exe
